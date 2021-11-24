@@ -1,25 +1,40 @@
 import logo from './logo.svg';
 import './App.css';
+import Fetch from './chart/fetch';
+import React from 'react';
+import { useEffect, useState } from 'react';
+import BarChart from "./components/BarChart";
+import { dataByYear } from "./data2";
 
-function App() {
+// function App() {
+
+//   const [json, setJson] = useState(null);
+//   useEffect(() => {
+//      Fetch().then(songData => setJson(songData));
+//   })
+
+//   return (
+//     <div className="App">
+//       <header className="App-header">
+//         <img src={logo} className="App-logo" alt="logo" />
+//         <pre>
+//           {JSON.stringify(json, null, 3)}
+//         </pre>
+//       </header>
+//     </div>
+//   );
+// }
+
+export default function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Just Another Demo</h1>
+      <h2>https://codesandbox.io/s/hva-demo-dag3-tnn6g</h2>
+
+      <BarChart data={dataByYear} />
     </div>
   );
 }
 
-export default App;
+
+// export default App;

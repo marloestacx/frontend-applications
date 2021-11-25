@@ -14,6 +14,10 @@ function BubbleChart({ data }) {
   const width = 1500 - margin.left - margin.right;
   const height = 900 - margin.top - margin.bottom;
 
+  var color = d3.scaleOrdinal()
+  .domain([data.album])
+  .range([ "yellow", "pink", "grey", "red", "blue", "black", "green","white"])
+
   const ref = useD3(
     (svg) => {
 
@@ -34,30 +38,31 @@ function BubbleChart({ data }) {
   .append("circle")
       .attr("r", function(d){ return sqrtScale(d.views)})
       //Color circle according to album name
-      .attr("fill", function(data) {
-        if (data.album == "folklore") {
-          return "grey";
-        } 
-        if (data.album == "evermore") {
-          return "green";
-        } 
-        else if (data.album == "reputation") {
-          return "black";
-        }
-        else if (data.album.includes("1989")) {
-          return "blue";
-        }
-        else if (data.album.includes("Red")) {
-          return "#FF0000";
-        }
-        else if (data.album.includes("Lover")) {
-          return "pink";
-        }
-        else if (data.album.includes("Fearless")) {
-          return "yellow";
-        }
-        return "white";
-      })
+      .style("fill", function(d){ return color(d.album)})
+      // .attr("fill", function(data) {
+      //   if (data.album == "folklore") {
+      //     return "grey";
+      //   } 
+      //   if (data.album == "evermore") {
+      //     return "green";
+      //   } 
+      //   else if (data.album == "reputation") {
+      //     return "black";
+      //   }
+      //   else if (data.album.includes("1989")) {
+      //     return "blue";
+      //   }
+      //   else if (data.album.includes("Red")) {
+      //     return "#FF0000";
+      //   }
+      //   else if (data.album.includes("Lover")) {
+      //     return "pink";
+      //   }
+      //   else if (data.album.includes("Fearless")) {
+      //     return "yellow";
+      //   }
+      //   return "white";
+      // })
       .style("fill-opacity", 0.8)
       .attr("stroke", "#69a2b2")
       .style("stroke-width", 4)

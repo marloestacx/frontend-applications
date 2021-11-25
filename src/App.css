@@ -36,3 +36,17 @@
     transform: rotate(360deg);
   }
 }
+
+div#toolTip {	
+  position: absolute;			
+  text-align: center;			
+  width: 90px;												
+  font: 12px sans-serif;		
+  background: lightseagreen;	
+  border: 0px;		
+  border-radius: 8px;	
+  padding: 2px;		
+  pointer-events: none;	
+}
+
+

@@ -5,6 +5,7 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import BarChart from "./components/BarChart";
 import { dataByYear } from "./data2";
+import { songData } from './data';
 
 // function App() {
 
@@ -31,7 +32,7 @@ export default function App() {
       <h1>Just Another Demo</h1>
       <h2>https://codesandbox.io/s/hva-demo-dag3-tnn6g</h2>
 
-      <BarChart data={dataByYear} />
+      <BarChart data={songData} />
     </div>
   );
 }

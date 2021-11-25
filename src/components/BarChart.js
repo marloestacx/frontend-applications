@@ -6,18 +6,18 @@ function BarChart({ data }) {
   const ref = useD3(
     (svg) => {
       const height = 500;
-      const width = 500;
+      const width = 1500;
       const margin = { top: 20, right: 30, bottom: 30, left: 40 };
 
       const x = d3
         .scaleBand()
-        .domain(data.map((d) => d.year))
+        .domain(data.map((d) => d.name))
         .rangeRound([margin.left, width - margin.right])
         .padding(0.1);
 
       const y1 = d3
         .scaleLinear()
-        .domain([0, d3.max(data, (d) => d.sales)])
+        .domain([0, d3.max(data, (d) => d.views)])
         .rangeRound([height - margin.bottom, margin.top]);
 
       const xAxis = (g) =>
@@ -58,10 +58,10 @@ function BarChart({ data }) {
         .data(data)
         .join("rect")
         .attr("class", "bar")
-        .attr("x", (d) => x(d.year))
+        .attr("x", (d) => x(d.name))
         .attr("width", x.bandwidth())
-        .attr("y", (d) => y1(d.sales))
-        .attr("height", (d) => y1(0) - y1(d.sales));
+        .attr("y", (d) => y1(d.views))
+        .attr("height", (d) => y1(0) - y1(d.views));
     },
     [data.length]
   );

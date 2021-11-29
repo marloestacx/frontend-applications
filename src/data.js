@@ -26,7 +26,7 @@ export const songData = [
     {
         name: "All Too Well (10 Minute Version) (Taylor’s Version) [From the Vault]",
         artist: "Taylor Swift",
-        album: "Red (Taylor’s Version)",
+        album: "Red",
         views: 2117724
     },
     {
@@ -146,7 +146,7 @@ export const songData = [
     {
         name: "All Too Well",
         artist: "Taylor Swift",
-        album: "Red (Deluxe Edition)",
+        album: "Red",
         views: 1054833
     },
     {

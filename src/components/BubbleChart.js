@@ -4,6 +4,8 @@ import * as d3 from "d3";
 
 function BubbleChart({ data }) {
 
+  let songData = [];
+
   // Define the div for the tooltip
   var div = d3.select("body").append("div")	
   .attr("class", "tooltip")				
@@ -16,7 +18,7 @@ function BubbleChart({ data }) {
 
   var color = d3.scaleOrdinal()
   .domain([data.album])
-  .range([ "yellow", "pink", "grey", "red", "blue", "black", "green","white"])
+  .range([ "yellow", "pink", "grey", "red", "black", "green","blue"])
 
   const ref = useD3(
     (svg) => {
@@ -38,31 +40,7 @@ function BubbleChart({ data }) {
   .append("circle")
       .attr("r", function(d){ return sqrtScale(d.views)})
       //Color circle according to album name
-      .style("fill", function(d){ return color(d.album)})
-      // .attr("fill", function(data) {
-      //   if (data.album == "folklore") {
-      //     return "grey";
-      //   } 
-      //   if (data.album == "evermore") {
-      //     return "green";
-      //   } 
-      //   else if (data.album == "reputation") {
-      //     return "black";
-      //   }
-      //   else if (data.album.includes("1989")) {
-      //     return "blue";
-      //   }
-      //   else if (data.album.includes("Red")) {
-      //     return "#FF0000";
-      //   }
-      //   else if (data.album.includes("Lover")) {
-      //     return "pink";
-      //   }
-      //   else if (data.album.includes("Fearless")) {
-      //     return "yellow";
-      //   }
-      //   return "white";
-      // })
+      .style("fill", function(d){ if(d.album.includes("Lover") || d.album.includes("folklore") || d.album.includes("evermore") || d.album.includes("Red") || d.album.includes("Fearless") || d.album.includes("reputation") || d.album.includes("1989") ){return color(d.album)} else {return "white"}})
       .style("fill-opacity", 0.8)
       .attr("stroke", "#69a2b2")
       .style("stroke-width", 4)
@@ -95,7 +73,7 @@ function BubbleChart({ data }) {
               .duration(500)		
               .style("opacity", 0);	
     });
-
+    
   // circle.update;
   // //Remove unneeded circles
   // circle.exit().remove();
@@ -117,6 +95,8 @@ function BubbleChart({ data }) {
             .attr("cy", function(d){ return d.y; })
       });
   });
+
+  
       return (
           <svg
             ref={ref}

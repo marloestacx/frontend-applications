@@ -1,13 +1,17 @@
 # frontend-applications
 
-Installeren
-
+## Installeren
 Clone deze repository
+```
+git clone https://github.com/marloestacx/frontend-applications.git
+```
 
-`git clone https://github.com/marloestacx/bloktech.git`
 Installeer de packages
+```
+npm install
+```
 
-`npm install`
 Start de app
-
-`npm start`
+```
+npm start
+```

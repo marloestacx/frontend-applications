@@ -3,13 +3,6 @@ import React from "react";
 import * as d3 from "d3";
 
 function BubbleChart({ data }) {
-  // Define the div for the tooltip
-  var div = d3
-    .select("body")
-    .append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
   // set the dimensions and margins of the graph
   const margin = { top: 0, bottom: 10, left: 0, right: 0 };
   const width = 1500 - margin.left - margin.right;
@@ -30,14 +23,7 @@ function BubbleChart({ data }) {
     .domain([data.album])
     .range(colors.map((d) => d.color));
 
-  console.log(color);
-
   const ref = useD3((svg) => {
-    //Group used to enforce margin
-    const g = svg
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
-
     //Add a scale for bubble size
     const sqrtScale = d3
       .scaleSqrt()
@@ -45,98 +31,103 @@ function BubbleChart({ data }) {
       //Output between 10 and 100
       .range([10, 100]);
 
-    const circle = g.selectAll("circle").data(data, function (d) {
-      return d.name;
-    });
+    circlePack(data);
+    function circlePack(data) {
+      //remove old svg
+      svg.selectAll("*").remove();
 
-    // Initialize the circle: all located at the center of the svg area
-    var node = circle
-      .enter()
-      .append("circle")
-      .attr("r", function (d) {
-        return sqrtScale(d.views);
-      })
-      //Color circle according to album name
-      .style("fill", function (d) {
-        if (
-          d.album.includes("Lover") ||
-          d.album.includes("folklore") ||
-          d.album.includes("evermore") ||
-          d.album.includes("Red") ||
-          d.album.includes("Fearless") ||
-          d.album.includes("reputation") ||
-          d.album.includes("1989")
-        ) {
-          return color(d.album);
-        } else {
-          return "white";
-        }
-      })
-      .style("fill-opacity", 0.8)
-      .attr("stroke", "#69a2b2")
-      .style("stroke-width", 4)
+      //Group used to enforce margin
+      const g = svg
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
 
-      // Hover show song titel
-      .on("mouseover", function (d, data) {
-        d3.select(this).transition().duration("50").attr("opacity", ".85");
-        div.transition().duration(200).style("opacity", 0.9);
-        // div.html(data.name)
-        //     .style("left", (d.pageX) + "px")
-        //     .style("top", (d.pageY - 28) + "px")
-
-        d3.select("#toolTip")
-          // take position of mouse for position of tooltip
-          .style("left", d.pageX + "px")
-          .style("top", d.pageY + "px");
-        d3.select("#type").text(data.name);
-      })
-      //Change opacity bubble when mouse is on
-      .on("mouseout", function (d) {
-        d3.select(this).transition().duration("50").attr("opacity", "1");
-
-        div.transition().duration(500).style("opacity", 0);
+      const circle = g.selectAll("circle").data(data, function (d) {
+        return d.name;
       });
 
-    // console.log(data)
-    legend(data);
-    // circle.update;
-    // //Remove unneeded circles
-    // circle.exit().remove();
-
-    // Features of the forces applied to the nodes:
-    var simulation = d3
-      .forceSimulation()
-      // Attraction to the center of the svg area
-      .force(
-        "center",
-        d3
-          .forceCenter()
-          .x(width / 2)
-          .y(height / 2)
-      )
-      // Force that avoids circle overlapping
-      .force(
-        "collide",
-        d3
-          .forceCollide()
-          .strength(0.2)
-          .radius(function (d) {
-            return sqrtScale(d.views) + 3;
-          })
-          .iterations(1)
-      );
-
-    // Apply these forces to the nodes and update their positions.
-    // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
-    simulation.nodes(data).on("tick", function (d) {
-      node
-        .attr("cx", function (d) {
-          return d.x;
+      // Initialize the circle: all located at the center of the svg area
+      var node = circle
+        .enter()
+        .append("circle")
+        .attr("r", function (d) {
+          return sqrtScale(d.views);
         })
-        .attr("cy", function (d) {
-          return d.y;
+        //Color circle according to album name
+        .style("fill", function (d) {
+          if (
+            d.album.includes("Lover") ||
+            d.album.includes("folklore") ||
+            d.album.includes("evermore") ||
+            d.album.includes("Red") ||
+            d.album.includes("Fearless") ||
+            d.album.includes("reputation") ||
+            d.album.includes("1989")
+          ) {
+            return color(d.album);
+          } else {
+            return "white";
+          }
+        })
+        .style("fill-opacity", 0.8)
+        .attr("stroke", "#69a2b2")
+        .style("stroke-width", 4)
+
+        // Hover show song titel
+        .on("mouseover", function (d, data) {
+          d3.select(this).transition().duration("50").attr("opacity", ".85");
+          d3.select("#toolTip")
+            // take position of mouse for position of tooltip
+            .style("left", d.pageX + "px")
+            .style("top", d.pageY + "px")
+            .transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          d3.select("#type").text(data.name);
+        })
+        //Change opacity bubble when mouse is on
+        .on("mouseout", function (d) {
+          d3.select(this).transition().duration("50").attr("opacity", "1");
+          d3.select("#toolTip").transition().duration(500).style("opacity", 0);
         });
-    });
+
+      // console.log(data)
+      legend(data);
+
+      // Features of the forces applied to the nodes:
+      var simulation = d3
+        .forceSimulation()
+        // Attraction to the center of the svg area
+        .force(
+          "center",
+          d3
+            .forceCenter()
+            .x(width / 2)
+            .y(height / 2)
+        )
+        // Force that avoids circle overlapping
+        .force(
+          "collide",
+          d3
+            .forceCollide()
+            .strength(0.2)
+            .radius(function (d) {
+              return sqrtScale(d.views) + 3;
+            })
+            .iterations(1)
+        );
+
+      // Apply these forces to the nodes and update their positions.
+      // Once the force algorithm is happy with positions ('alpha' value is low enough), simulations will stop.
+      simulation.nodes(data).on("tick", function (d) {
+        node
+          .attr("cx", function (d) {
+            return d.x;
+          })
+          .attr("cy", function (d) {
+            return d.y;
+          });
+      });
+    }
 
     function legend(data) {
       //Legend
@@ -240,6 +231,23 @@ function BubbleChart({ data }) {
       //   .style("font-size", 15)
       //   .attr('alignment-baseline', 'middle')
     }
+
+    //filter
+    d3.select("#filter").on("change", function () {
+      // This will be triggered when the user selects or unselects the checkbox
+      const checked = d3.select(this).property("checked");
+      if (checked === true) {
+        // Checkbox was just checked
+        // Keep only data with artist Taylor Swift
+        const filtered_data = data.filter((d) => d.artist === "Taylor Swift");
+        // Update the chart with the filtered data
+        circlePack(filtered_data);
+      } else {
+        // Checkbox was just unchecked
+        // Update the chart with all the data we have
+        circlePack(data);
+      }
+    });
   });
 
   return (

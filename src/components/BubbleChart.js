@@ -139,6 +139,9 @@ function BubbleChart({ data }) {
     });
 
     function legend(data) {
+      //Legend
+      //Albums
+
       let albums = [];
       data.forEach((data) => {
         if (albums.includes(data.album)) {
@@ -146,9 +149,6 @@ function BubbleChart({ data }) {
           albums.push(data.album);
         }
       });
-
-      //Legend
-      //Albums
 
       svg
         .append("text")
@@ -189,25 +189,6 @@ function BubbleChart({ data }) {
         .text("Other")
         .style("font-size", "15px")
         .attr("alignment-baseline", "middle");
-      // svg.append("circle").attr("cx",10).attr("cy",220).attr("r", 6).style("fill", function(d){ return color(data.album)})
-      // svg.append("text").attr("x", 10).attr("y", 40).text("Album").style("font-size", "19px").attr("alignment-baseline","middle")
-      // svg.append("circle").attr("cx",10).attr("cy",70).attr("r", 6).style("fill", "grey")
-      // svg.append("circle").attr("cx",10).attr("cy",100).attr("r", 6).style("fill", "black")
-      // svg.append("circle").attr("cx",10).attr("cy",130).attr("r", 6).style("fill", "green")
-      // svg.append("circle").attr("cx",10).attr("cy",160).attr("r", 6).style("fill", "blue")
-      // svg.append("circle").attr("cx",10).attr("cy",190).attr("r", 6).style("fill", "pink")
-      // svg.append("circle").attr("cx",10).attr("cy",220).attr("r", 6).style("fill", "#FF0000")
-      // svg.append("circle").attr("cx",10).attr("cy",250).attr("r", 6).style("fill", "yellow")
-
-      // svg.append("circle").attr("cx",10).attr("cy",280).attr("r", 6).style("fill", "white").style("stroke", "black")
-      // svg.append("text").attr("x", 30).attr("y", 70).text("folklore").style("font-size", "15px").attr("alignment-baseline","middle")
-      // svg.append("text").attr("x", 30).attr("y", 100).text("Reputation").style("font-size", "15px").attr("alignment-baseline","middle")
-      // svg.append("text").attr("x", 30).attr("y", 130).text("evermore").style("font-size", "15px").attr("alignment-baseline","middle")
-      // svg.append("text").attr("x", 30).attr("y", 160).text("1989").style("font-size", "15px").attr("alignment-baseline","middle")
-      // svg.append("text").attr("x", 30).attr("y", 190).text("Lover").style("font-size", "15px").attr("alignment-baseline","middle")
-      // svg.append("text").attr("x", 30).attr("y", 220).text("Red").style("font-size", "15px").attr("alignment-baseline","middle")
-      // svg.append("text").attr("x", 30).attr("y", 250).text("Fearless").style("font-size", "15px").attr("alignment-baseline","middle")
-      // svg.append("text").attr("x", 30).attr("y", 280).text("Other").style("font-size", "15px").attr("alignment-baseline","middle")
 
       // //Populairity
       // svg.append("text").attr("x", 10).attr("y", 330).text("Popularity").style("font-size", "19px").attr("alignment-baseline","middle")

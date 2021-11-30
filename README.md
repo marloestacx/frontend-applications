@@ -11,7 +11,7 @@ Installeer de packages
 npm install
 ```
 
-Start de app
+Start het project
 ```
 npm start
 ```

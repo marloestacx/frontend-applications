@@ -6,7 +6,7 @@ function BubbleChart({ data }) {
   // set the dimensions and margins of the graph
   const margin = { top: 0, bottom: 10, left: 0, right: 0 };
   const width = 1500 - margin.left - margin.right;
-  const height = 900 - margin.top - margin.bottom;
+  const height = 1000 - margin.top - margin.bottom;
 
   const colors = [
     { album: "Fearless", color: "yellow" },
@@ -72,7 +72,7 @@ function BubbleChart({ data }) {
         .attr("stroke", "#69a2b2")
         .style("stroke-width", 4)
 
-        // Hover show song titel
+        // Hover show song title
         .on("mouseover", function (d, data) {
           d3.select(this).transition().duration("50").attr("opacity", ".85");
           d3.select("#toolTip")
@@ -132,7 +132,6 @@ function BubbleChart({ data }) {
     function legend(data) {
       //Legend
       //Albums
-
       let albums = [];
       data.forEach((data) => {
         if (albums.includes(data.album)) {

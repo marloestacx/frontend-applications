@@ -3,34 +3,52 @@ import React from "react";
 import * as d3 from "d3";
 
 function BarChart({ data }) {
+  const height = 700;
+  const width = 1500;
+  const margin = { top: 20, right: 30, bottom: 300, left: 40 };
+
   const ref = useD3(
     (svg) => {
-      const height = 500;
-      const width = 1500;
-      const margin = { top: 20, right: 30, bottom: 30, left: 40 };
-
       const x = d3
         .scaleBand()
         .domain(data.map((d) => d.name))
         .rangeRound([margin.left, width - margin.right])
         .padding(0.1);
 
+      console.log(data);
+
       const y1 = d3
         .scaleLinear()
         .domain([0, d3.max(data, (d) => d.views)])
         .rangeRound([height - margin.bottom, margin.top]);
 
+      // svg
+      //   .append("g")
+      //   .attr("transform", "translate(0,50)") // This controls the vertical position of the Axis
+      //   .call(d3.axisBottom(x));
+
       const xAxis = (g) =>
-        g.attr("transform", `translate(0,${height - margin.bottom})`).call(
-          d3
-            .axisBottom(x)
-            .tickValues(
-              d3
-                .ticks(...d3.extent(x.domain()), width / 40)
-                .filter((v) => x(v) !== undefined)
-            )
-            .tickSizeOuter(0)
-        );
+        g
+          .attr("transform", `translate(0,${height - margin.bottom + 2})`)
+          .style("color", "#440099")
+          .call(d3.axisBottom(x))
+          .call((g) => g.select(".domain").remove())
+          .call((g) =>
+            g
+              .append("text")
+              .attr("x", -margin.left)
+              .attr("y", 10)
+              .attr("fill", "currentColor")
+              .attr("text-anchor", "start")
+              .text(data.y1)
+          )
+          //rotating labels
+          .selectAll("text")
+          .attr("y", 0)
+          .attr("x", 0)
+          .attr("dy", ".35em")
+          .attr("transform", "rotate(45)")
+          .style("text-anchor", "start");
 
       const y1Axis = (g) =>
         g
@@ -61,23 +79,7 @@ function BarChart({ data }) {
         .attr("x", (d) => x(d.name))
         .attr("width", x.bandwidth())
         .attr("y", (d) => y1(d.views))
-        .attr("height", (d) => y1(0) - y1(d.views))
-        .on("mouseover", function (d, data) {
-          d3.select(this).transition().duration("50").attr("opacity", ".85");
-          d3.select("#toolTip")
-            // take position of mouse for position of tooltip
-            .style("left", d.pageX + "px")
-            .style("top", d.pageY + "px")
-            .transition()
-            .duration(200)
-            .style("opacity", 0.9);
-          d3.select("#type").text(data.name);
-        })
-        //Change opacity bubble when mouse is on
-        .on("mouseout", function (d) {
-          d3.select(this).transition().duration("50").attr("opacity", "1");
-          d3.select("#toolTip").transition().duration(500).style("opacity", 0);
-        });
+        .attr("height", (d) => y1(0) - y1(d.views));
     },
     [data.length]
   );
@@ -86,7 +88,7 @@ function BarChart({ data }) {
     <svg
       ref={ref}
       style={{
-        height: 500,
+        height: height,
         width: "100%",
         marginRight: "0px",
         marginLeft: "0px",

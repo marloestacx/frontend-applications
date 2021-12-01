@@ -61,7 +61,23 @@ function BarChart({ data }) {
         .attr("x", (d) => x(d.name))
         .attr("width", x.bandwidth())
         .attr("y", (d) => y1(d.views))
-        .attr("height", (d) => y1(0) - y1(d.views));
+        .attr("height", (d) => y1(0) - y1(d.views))
+        .on("mouseover", function (d, data) {
+          d3.select(this).transition().duration("50").attr("opacity", ".85");
+          d3.select("#toolTip")
+            // take position of mouse for position of tooltip
+            .style("left", d.pageX + "px")
+            .style("top", d.pageY + "px")
+            .transition()
+            .duration(200)
+            .style("opacity", 0.9);
+          d3.select("#type").text(data.name);
+        })
+        //Change opacity bubble when mouse is on
+        .on("mouseout", function (d) {
+          d3.select(this).transition().duration("50").attr("opacity", "1");
+          d3.select("#toolTip").transition().duration(500).style("opacity", 0);
+        });
     },
     [data.length]
   );
@@ -73,7 +89,7 @@ function BarChart({ data }) {
         height: 500,
         width: "100%",
         marginRight: "0px",
-        marginLeft: "0px"
+        marginLeft: "0px",
       }}
     >
       <g className="plot-area" />

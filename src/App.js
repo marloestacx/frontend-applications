@@ -1,22 +1,20 @@
 import "./App.css";
 import React from "react";
-import BubbleChart from "./components/BubbleChart";
-import { songData } from "./data";
+import BubbleChartPage from "./components/BubbleChartPage";
+import BarChartPage from "./components/BarChartPage";
+import { Routes, Route, Link } from "react-router-dom";
 
 export default function App() {
   return (
     <div className="App">
-      <h1>What albums do Taylor Swift's most populair songs come from?</h1>
-      <label>
-        <input type="checkbox" name="Filter" value="1" id="filter" />
-        Taylor Swift only
-      </label>
-      <BubbleChart data={songData} />
-      {/* <BarChart data={songData} /> */}
-      <div className="hidden" id="toolTip">
-        <p id="type"></p>
-        <p id="value"></p>
+      <div className="nav">
+        <Link to="/">BubbleChartPage</Link>
+        <Link to="/BarChartPage">BarChartPage</Link>
       </div>
+      <Routes>
+        <Route path="/" element={<BubbleChartPage />} />
+        <Route path="/BarChartPage" element={<BarChartPage />} />
+      </Routes>
     </div>
   );
 }

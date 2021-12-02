@@ -25,3 +25,9 @@ Start het project
 ```
 npm start
 ```
+
+## License
+
+<a href="https://github.com/marloestacx/functional-programming/blob/main/LICENSE"> MIT license </a>
+
+

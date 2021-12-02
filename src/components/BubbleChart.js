@@ -3,7 +3,7 @@ import React from "react";
 import * as d3 from "d3";
 
 function BubbleChart({ data }) {
-  // set the dimensions and margins of the graph
+  // Set the dimensions and margins of the graph
   const margin = { top: 0, bottom: 10, left: 0, right: 0 };
   const width = 1500 - margin.left - margin.right;
   const height = 1000 - margin.top - margin.bottom;
@@ -24,11 +24,11 @@ function BubbleChart({ data }) {
     .range(colors.map((d) => d.color));
 
   const ref = useD3((svg) => {
-    //Add a scale for bubble size
+    // Add a scale for bubble size
     const sqrtScale = d3
       .scaleSqrt()
       .domain(d3.extent(data, (d) => d.views))
-      //Output between 10 and 100
+      // Output between 10 and 100
       .range([10, 100]);
 
     circlePack(data);
@@ -52,7 +52,7 @@ function BubbleChart({ data }) {
         .attr("r", function (d) {
           return sqrtScale(d.views);
         })
-        //Color circle according to album name
+        // Color circle according to album name
         .style("fill", function (d) {
           if (
             d.album.includes("Lover") ||
@@ -84,13 +84,12 @@ function BubbleChart({ data }) {
             .style("opacity", 0.9);
           d3.select("#type").text(data.name);
         })
-        //Change opacity bubble when mouse is on
+        // Change opacity bubble when mouse is on
         .on("mouseout", function (d) {
           d3.select(this).transition().duration("50").attr("opacity", "1");
           d3.select("#toolTip").transition().duration(500).style("opacity", 0);
         });
 
-      // console.log(data)
       legend(data);
 
       // Features of the forces applied to the nodes:
@@ -130,8 +129,8 @@ function BubbleChart({ data }) {
     }
 
     function legend(data) {
-      //Legend
-      //Albums
+      // Legend
+      // Albums
       let albums = [];
       data.forEach((data) => {
         if (albums.includes(data.album)) {
@@ -180,58 +179,80 @@ function BubbleChart({ data }) {
         .style("font-size", "15px")
         .attr("alignment-baseline", "middle");
 
-      // //Populairity
-      // svg.append("text").attr("x", 10).attr("y", 330).text("Popularity").style("font-size", "19px").attr("alignment-baseline","middle")
+      // Populairity
+      svg
+        .append("text")
+        .attr("x", 10)
+        .attr("y", 330)
+        .text("Popularity")
+        .style("font-size", "19px")
+        .attr("alignment-baseline", "middle");
 
-      // // The scale you use for bubble size
-      // var size = d3.scaleSqrt()
-      //   .domain([1, 100])
-      //   .range([1, 100])
+      // The scale you use for bubble size
+      var size = d3.scaleSqrt().domain([1, 100]).range([1, 100]);
 
-      // // Add legend: circles
-      // var valuesToShow = [{name: 'Least popular', number: 10}, {name: 'Average', number: 50},{name: 'Most popular', number: 100}]
-      // var xCircle = 110
-      // var xLabel = 250
-      // var yCircle = 550
+      // Add legend: circles
+      var valuesToShow = [
+        { name: "Least popular", number: 10 },
+        { name: "Average", number: 50 },
+        { name: "Most popular", number: 100 },
+      ];
+      var xCircle = 110;
+      var xLabel = 250;
+      var yCircle = 550;
 
-      // svg
-      //   .selectAll("legend")
-      //   .data(valuesToShow)
-      //   .enter()
-      //   .append("circle")
-      //     .attr("cx", xCircle)
-      //     .attr("cy", function(d){ return yCircle - size(d.number) } )
-      //     .attr("r", function(d){ return size(d.number) })
-      //     .style("fill", "none")
-      //     .attr("stroke", "black")
+      svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("circle")
+        .attr("cx", xCircle)
+        .attr("cy", function (d) {
+          return yCircle - size(d.number);
+        })
+        .attr("r", function (d) {
+          return size(d.number);
+        })
+        .style("fill", "none")
+        .attr("stroke", "black");
 
-      // // Add legend: segments
-      // svg
-      // .selectAll("legend")
-      // .data(valuesToShow)
-      // .enter()
-      // .append("line")
-      //   .attr('x1', function(d){ return xCircle + size(d.number) } )
-      //   .attr('x2', xLabel)
-      //   .attr('y1', function(d){ return yCircle - size(d.number) } )
-      //   .attr('y2', function(d){ return yCircle - size(d.number) } )
-      //   .attr('stroke', 'black')
-      //   .style('stroke-dasharray', ('2,2'))
+      // Add legend: segments
+      svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("line")
+        .attr("x1", function (d) {
+          return xCircle + size(d.number);
+        })
+        .attr("x2", xLabel)
+        .attr("y1", function (d) {
+          return yCircle - size(d.number);
+        })
+        .attr("y2", function (d) {
+          return yCircle - size(d.number);
+        })
+        .attr("stroke", "black")
+        .style("stroke-dasharray", "2,2");
 
-      // // Add legend: labels
-      // svg
-      // .selectAll("legend")
-      // .data(valuesToShow)
-      // .enter()
-      // .append("text")
-      //   .attr('x', xLabel)
-      //   .attr('y', function(d){ return yCircle - size(d.number)} )
-      //   .text( function(d){ return d.name } )
-      //   .style("font-size", 15)
-      //   .attr('alignment-baseline', 'middle')
+      // Add legend: labels
+      svg
+        .selectAll("legend")
+        .data(valuesToShow)
+        .enter()
+        .append("text")
+        .attr("x", xLabel)
+        .attr("y", function (d) {
+          return yCircle - size(d.number);
+        })
+        .text(function (d) {
+          return d.name;
+        })
+        .style("font-size", 15)
+        .attr("alignment-baseline", "middle");
     }
 
-    //filter
+    // Filter
     d3.select("#filter").on("change", function () {
       // This will be triggered when the user selects or unselects the checkbox
       const checked = d3.select(this).property("checked");

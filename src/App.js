@@ -8,8 +8,8 @@ export default function App() {
   return (
     <div className="App">
       <div className="nav">
-        <Link to="/">BubbleChartPage</Link>
-        <Link to="/BarChartPage">BarChartPage</Link>
+        <Link to="/">Bubble chart</Link>
+        <Link to="/BarChartPage">Bar chart</Link>
       </div>
       <Routes>
         <Route path="/" element={<BubbleChartPage />} />

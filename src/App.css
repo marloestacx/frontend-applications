@@ -49,3 +49,11 @@ div#toolTip {
   padding: 2px;
   pointer-events: none;
 }
+
+a {
+  padding: 10px;
+  margin: 5px;
+  background-color: #e3c1f7;
+  text-decoration: none;
+  color: black;
+}
